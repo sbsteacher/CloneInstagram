@@ -11,8 +11,12 @@ import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserServ
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.Locale;
+
+@Service
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     @Autowired private UserMapper mapper;
@@ -43,7 +47,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     }
 
     private UserEntity registerUser(OAuth2UserRequest oAuth2UserRequest, OAuth2UserInfo oAuth2UserInfo) {
-        ProviderType provider = ProviderType.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId());
+        ProviderType provider = ProviderType.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId().toUpperCase());
 
         UserEntity user = new UserEntity();
         user.setEmail(oAuth2UserInfo.getEmail());
