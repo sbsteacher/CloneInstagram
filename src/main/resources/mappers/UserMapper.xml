@@ -11,5 +11,6 @@
     <select id="findByEmail" resultType="UserEntity">
         SELECT * FROM t_user
         WHERE email = #{email}
+        AND provider = #{provider}
     </select>
 </mapper>

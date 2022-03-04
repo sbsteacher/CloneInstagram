@@ -1,5 +1,6 @@
 package com.koreait.cloneinstagram.security;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,9 +14,11 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired private CustomOAuth2UserService customOauth2UserService;
+    private final CustomOAuth2UserService customOauth2UserService;
+    private final CustomUserDetailsService customUserDetailsService;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -27,12 +30,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(HttpSecurity http) throws Exception {
         http
             .authorizeRequests()
-                .antMatchers("/user/signin", "/user/singup").permitAll()
+                .antMatchers("/css/**", "/img/**", "/js/**", "/user/signin", "/user/signup").permitAll()
                 .anyRequest().authenticated();
+
+        http.formLogin()
+                .loginPage("/user/signin")
+                .usernameParameter("email")
+                .passwordParameter("pw")
+                .defaultSuccessUrl("/feed", true);
 
         http.oauth2Login()
                 .loginPage("/user/signin")
-                .defaultSuccessUrl("/feed")
+                .defaultSuccessUrl("/feed", true)
                 .failureUrl("/user/signin")
                 .userInfoEndpoint() //OAuth 2 로그인 성공 이후 사용자 정보를 가져올 때의 설정들을 담당합니다.
                 .userService(customOauth2UserService);
@@ -46,6 +55,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        //auth.userDetailsService(userDetails).passwordEncoder(passwordEncoder());
+        auth.userDetailsService(customUserDetailsService).passwordEncoder(passwordEncoder());
     }
 }

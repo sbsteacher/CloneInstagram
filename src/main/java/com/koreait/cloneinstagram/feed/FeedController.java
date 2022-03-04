@@ -12,4 +12,6 @@ public class FeedController {
     public String main() {
         return "feed/index";
     }
+
+
 }

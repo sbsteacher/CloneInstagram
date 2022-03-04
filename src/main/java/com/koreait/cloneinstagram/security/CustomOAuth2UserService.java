@@ -4,6 +4,7 @@ import com.koreait.cloneinstagram.security.model.CustomUserPrincipal;
 import com.koreait.cloneinstagram.security.model.OAuth2UserInfo;
 import com.koreait.cloneinstagram.user.UserMapper;
 import com.koreait.cloneinstagram.user.model.UserEntity;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.AuthenticationException;
@@ -14,12 +15,11 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.util.Locale;
-
 @Service
+@RequiredArgsConstructor
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
-    @Autowired private UserMapper mapper;
+    private final UserMapper mapper;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest oAuth2UserRequest) throws OAuth2AuthenticationException {
@@ -39,27 +39,28 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             throw new OAuth2AuthenticationProcessingException("Email not found from OAuth2 provider");
         }
 
-        UserEntity savedUser = mapper.findByEmail(oAuth2UserInfo.getEmail());
+
+        ProviderType providerType = ProviderType.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId().toUpperCase());
+        String provider = providerType.toString();
+
+        UserEntity param = new UserEntity();
+        param.setEmail(oAuth2UserInfo.getEmail());
+        param.setProvider(provider);
+
+        UserEntity savedUser = mapper.findByEmail(param);
         if(savedUser == null) {
-            savedUser = registerUser(oAuth2UserRequest, oAuth2UserInfo);
+            param.setNm(oAuth2UserInfo.getName());
+            savedUser = registerUser(param);
         }
         return CustomUserPrincipal.create(savedUser);
     }
 
-    private UserEntity registerUser(OAuth2UserRequest oAuth2UserRequest, OAuth2UserInfo oAuth2UserInfo) {
-        ProviderType provider = ProviderType.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId().toUpperCase());
-
-        UserEntity user = new UserEntity();
-        user.setEmail(oAuth2UserInfo.getEmail());
-        user.setProvider(provider.toString());
-        user.setNm(oAuth2UserInfo.getName());
-
-        int result = mapper.insUser(user);
+    private UserEntity registerUser(UserEntity param) {
+        int result = mapper.insUser(param);
         if(result == 0) {
             throw new OAuth2AuthenticationProcessingException(" Social Login Join Fail ");
         }
-
-        return mapper.findByEmail(oAuth2UserInfo.getEmail());
+        return mapper.findByEmail(param);
     }
 
 }
