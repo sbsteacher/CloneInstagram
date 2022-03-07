@@ -1,6 +1,7 @@
 package com.koreait.cloneinstagram.security.model;
 
 import com.koreait.cloneinstagram.user.model.UserEntity;
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -8,15 +9,14 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 
 public class CustomUserPrincipal implements OAuth2User, UserDetails {
-    private UserEntity entity;
+    @Getter private UserEntity user;
     private Map<String, Object> attributes;
 
-    public CustomUserPrincipal(UserEntity entity) {
-        this.entity = entity;
+    public CustomUserPrincipal(UserEntity user) {
+        this.user = user;
     }
 
     public static CustomUserPrincipal create(UserEntity user) {
@@ -30,12 +30,12 @@ public class CustomUserPrincipal implements OAuth2User, UserDetails {
     }
     @Override
     public String getPassword() {
-        return entity.getPw();
+        return user.getPw();
     }
 
     @Override
     public String getUsername() {
-        return entity.getEmail();
+        return user.getEmail();
     }
 
     @Override
@@ -74,6 +74,6 @@ public class CustomUserPrincipal implements OAuth2User, UserDetails {
 
     @Override
     public String getName() {
-        return entity.getNm();
+        return user.getNm();
     }
 }

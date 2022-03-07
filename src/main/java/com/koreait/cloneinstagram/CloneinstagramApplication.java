@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class CloneinstargramApplication {
+public class CloneinstagramApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(CloneinstargramApplication.class, args);
+        SpringApplication.run(CloneinstagramApplication.class, args);
     }
 
 }
