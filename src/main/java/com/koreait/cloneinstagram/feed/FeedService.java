@@ -1,10 +1,7 @@
 package com.koreait.cloneinstagram.feed;
 
 import com.koreait.cloneinstagram.common.MyFileUtils;
-import com.koreait.cloneinstagram.feed.model.FeedDTO;
-import com.koreait.cloneinstagram.feed.model.FeedDomain;
-import com.koreait.cloneinstagram.feed.model.FeedEntity;
-import com.koreait.cloneinstagram.feed.model.FeedImgEntity;
+import com.koreait.cloneinstagram.feed.model.*;
 import com.koreait.cloneinstagram.security.AuthenticationFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -39,8 +36,29 @@ public class FeedService {
         return 1;
     }
 
-    public List<FeedDomain> selFeedList(FeedDTO dto) {
+    public List<FeedDomain> selFeedList(FeedDto dto) {
         dto.setIuserForFav(auth.getLoginUserPk());
         return mapper.selFeedList(dto);
     }
+
+    /********************************************    fav [start]  *********/
+    public int feedFavProc(FeedFavEntity entity, int type) {
+        entity.setIuser(auth.getLoginUserPk());
+        if(type == 1) {
+            return mapper.insFeedFav(entity);
+        }
+        return mapper.delFeedFav(entity);
+    }
+    /********************************************    fav [end]  *********/
+
+    /********************************************    cmt [start]  *********/
+    public int insFeedCmt(FeedCmtEntity entity) {
+        entity.setIuser(auth.getLoginUserPk());
+        return mapper.insFeedCmt(entity);
+    }
+
+    public List<FeedCmtDomain> selFeedCmtList(FeedCmtEntity entity) {
+        return mapper.selFeedCmtList(entity);
+    }
+    /********************************************    cmt [end]  *********/
 }

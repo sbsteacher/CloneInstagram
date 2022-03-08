@@ -109,8 +109,14 @@ if(newFeedModalBtnElem) {
                     body: fData
                 }).then(res => res.json())
                     .then(myJson => {
-                        console.log(myJson);
-                    })
+
+                        const closeBtn = modal.querySelector('.btn-close');
+                        closeBtn.click();
+
+                        if(feedObj && myJson.result) {
+                            feedObj.refreshList();
+                        }
+                    });
             });
         }
     });

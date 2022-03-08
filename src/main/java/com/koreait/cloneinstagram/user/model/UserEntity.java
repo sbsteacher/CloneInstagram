@@ -2,9 +2,11 @@ package com.koreait.cloneinstagram.user.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
+@ToString
 public class UserEntity {
     private Long iuser;
     private String provider;

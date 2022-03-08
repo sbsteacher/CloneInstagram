@@ -26,6 +26,9 @@
          FROM t_feed A
         INNER JOIN t_user C
            ON A.iuser = C.iuser
+        <if test="iuserForMyFeed > 0">
+          AND C.iuser = ${iuserForMyFeed}
+        </if>
          LEFT JOIN (
                 SELECT ifeed, COUNT(ifeed) AS cnt
                   FROM t_feed_fav
@@ -94,7 +97,6 @@
                             ON A.iuser = B.iuser
         WHERE A.ifeed = ${ifeed}
         ORDER BY icmt ASC
-            LIMIT 1, 900000
     </select>
 
     <insert id="insFeedCmt">

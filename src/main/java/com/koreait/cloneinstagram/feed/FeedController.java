@@ -1,16 +1,13 @@
 package com.koreait.cloneinstagram.feed;
 
 import com.koreait.cloneinstagram.ResultVo;
-import com.koreait.cloneinstagram.feed.model.FeedDTO;
-import com.koreait.cloneinstagram.feed.model.FeedDomain;
-import com.koreait.cloneinstagram.feed.model.FeedEntity;
+import com.koreait.cloneinstagram.feed.model.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
-import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
@@ -32,7 +29,27 @@ public class FeedController {
 
     @ResponseBody
     @GetMapping("/list")
-    public List<FeedDomain> selFeedList(FeedDTO dto) {
+    public List<FeedDomain> selFeedList(FeedDto dto) {
         return service.selFeedList(dto);
+    }
+
+    @ResponseBody
+    @GetMapping("/fav")
+    public int feedFavProc(FeedFavEntity param, int type) { //type: 1 - ins(등록), 0 - del(취소)
+        System.out.println(param);
+        System.out.println("type: " + type);
+        return service.feedFavProc(param, type);
+    }
+
+    @ResponseBody
+    @PostMapping("/cmt")
+    public int insFeedCmt(@RequestBody FeedCmtEntity entity) {
+        return service.insFeedCmt(entity);
+    }
+
+    @ResponseBody
+    @GetMapping("/cmt")
+    public List<FeedCmtDomain> cmtList(FeedCmtEntity entity) {
+        return service.selFeedCmtList(entity);
     }
 }
