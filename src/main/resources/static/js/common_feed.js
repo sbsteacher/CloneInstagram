@@ -46,13 +46,13 @@ const feedObj = {
             const itemContainer = document.createElement('div');
             itemContainer.className = 'item mt-3 mb-3';
 
-            // 글쓴이 정보 영역
-            const imgTag = `<img src="/pic/profile/${item.iuser}/${item.mainimg}" class="pointer profile w30 h30" 
-            onclick="moveToProfile(${item.iuser});" onerror="this.onerror=null; this.src='/img/defaultProfileImg.png'">`;
-
             const regDtInfo = getDateTimeInfo(item.regdt);
             const topDiv = document.createElement('div');
             topDiv.className = 'd-flex flex-row ps-3 pe-3';
+
+            // 글쓴이 정보 영역
+            const imgTag = `<img src="/pic/profile/${item.iuser}/${item.mainimg}" class="pointer profile w30 h30" 
+            onclick="moveToProfile(${item.iuser});" onerror="this.onerror=null; this.src='/img/defaultProfileImg.png'">`;
             topDiv.innerHTML = `
                 <div class="d-flex flex-column justify-content-center">${imgTag}</div>
                 <div class="p-3 flex-grow-1">
@@ -118,6 +118,7 @@ const feedObj = {
                                     favCntHiddenInput.value = favCnt + 1;
                                     break;
                             }
+                            //일부로 이벤트 발생!!!!
                             favCntHiddenInput.dispatchEvent(new Event("change"));
                         }
                     });
@@ -185,10 +186,7 @@ const feedObj = {
                 moreCmtDiv.append(moreCmtSpan);
                 cmtDiv.append(moreCmtDiv);
             }
-
-
             cmtDiv.append(cmtFormDiv);
-
 
             const cmtInput = document.createElement('input');
             cmtInput.type = 'text';
