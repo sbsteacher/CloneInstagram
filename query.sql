@@ -10,6 +10,23 @@ CREATE TABLE t_user(
    UNIQUE(email, provider)
 );
 
+CREATE TABLE `t_user_follow` (
+    `fromiuser` BIGINT(20) UNSIGNED NOT NULL,
+    `toiuser` BIGINT(20) UNSIGNED NOT NULL,
+    `regdt` DATETIME NULL DEFAULT current_timestamp(),
+    PRIMARY KEY (`fromiuser`, `toiuser`) USING BTREE,
+    FOREIGN KEY (`fromiuser`) REFERENCES `cloneinstagram`.`t_user` (`iuser`),
+    FOREIGN KEY (`toiuser`) REFERENCES `cloneinstagram`.`t_user` (`iuser`)
+);
+
+CREATE TABLE `t_user_img` (
+    `iuser` BIGINT(20) UNSIGNED NOT NULL,
+    `img` VARCHAR(50) NOT NULL,
+    `regdt` DATETIME NULL DEFAULT current_timestamp(),
+    PRIMARY KEY (`iuser`, `img`),
+    FOREIGN KEY (`iuser`) REFERENCES `cloneinstagram`.`t_user` (`iuser`)
+);
+
 CREATE TABLE t_feed(
    ifeed BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
    location VARCHAR(20),
