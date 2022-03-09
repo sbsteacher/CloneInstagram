@@ -38,7 +38,7 @@ spring:
             redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
             scope:
               - profile_nickname
-              - profile_image
+              - account_email
             client-authentication-method: POST
             client-name: Kakao
           naver:
@@ -46,7 +46,7 @@ spring:
             client-id: ddd
             client-secret: ddd
             redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
-            scope: name,email,profile_image
+            scope: name,email
             client-name: Naver
 
         provider:

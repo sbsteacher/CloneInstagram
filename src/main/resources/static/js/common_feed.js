@@ -8,11 +8,11 @@ function getDateTimeInfo(dt) {
     const diffSec = nowDtSec - targetDtSec;
     if(diffSec < 120) {
         return '1분 전';
-    } else if(diffSec < 3600) { //분 단위
+    } else if(diffSec < 3600) { //분 단위 (60 * 60)
         return `${parseInt(diffSec / 60)}분 전`;
-    } else if(diffSec < 86400) { //시간 단위
+    } else if(diffSec < 86400) { //시간 단위 (60 * 60 * 24)
         return `${parseInt(diffSec / 3600)}시간 전`;
-    } else if(diffSec < 604800) { //일 단위
+    } else if(diffSec < 2592000) { //일 단위 (60 * 60 * 24 * 30)
         return `${parseInt(diffSec / 86400)}일 전`;
     }
     return targetDt.toLocaleString();
@@ -305,6 +305,7 @@ const feedObj = {
             console.log(myJson);
             this.itemLength = myJson.length;
             this.makeFeedList(myJson);
+            this.hideLoading();
         }, param);
 
     },
@@ -336,6 +337,6 @@ const feedObj = {
 
         return cmtItemContainerDiv;
     },
-    hideLoading: function() { this.loadingElem.classList.add('hide');},
-    showLoading: function() { this.loadingElem.classList.remove('hide'); }
+    hideLoading: function() { this.loadingElem.classList.add('display-none');},
+    showLoading: function() { this.loadingElem.classList.remove('display-none'); }
 }
