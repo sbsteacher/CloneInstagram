@@ -20,8 +20,8 @@ spring:
       client:
         registration:
           google:
-            client-id:
-            client-secret:
+            client-id: ddd
+            client-secret: ddd
             scope:
               - profile
               - email
