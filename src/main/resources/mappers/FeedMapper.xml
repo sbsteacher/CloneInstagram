@@ -3,9 +3,9 @@
 <mapper namespace="com.koreait.cloneinstagram.feed.FeedMapper">
 
     <resultMap id="FeedDomainRM" type="FeedDomain">
-        <result property="ifeed" column="ifeed"></result>
-        <association property="cmt" column="ifeed" select="selFeedCmt"></association>
-        <collection property="imgList" column="ifeed" select="selFeedImgList"></collection>
+        <result property="ifeed" column="ifeed"/>
+        <association property="cmt" column="ifeed" select="selFeedCmt"/>
+        <collection property="imgList" column="ifeed" select="selFeedImgList"/>
     </resultMap>
 
     <insert id="insFeed" useGeneratedKeys="true" keyProperty="ifeed">

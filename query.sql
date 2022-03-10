@@ -61,3 +61,29 @@ CREATE TABLE t_feed_fav(
    FOREIGN KEY (ifeed) REFERENCES t_feed(ifeed),
    FOREIGN KEY (iuser) REFERENCES t_user(iuser)
 );
+
+CREATE TABLE t_dm(
+    idm BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+    regdt DATETIME DEFAULT NOW(),
+    lastmsg VARCHAR(200) NOT NULL,
+    lastdt DATETIME DEFAULT NOW()
+);
+
+CREATE TABLE t_dm_user(
+    idm BIGINT UNSIGNED,
+    iuser BIGINT UNSIGNED,
+    PRIMARY KEY(idm, iuser),
+    FOREIGN KEY(idm) REFERENCES t_dm(idm),
+    FOREIGN KEY(iuser) REFERENCES t_user(iuser)
+);
+
+CREATE TABLE t_dm_msg(
+     idm BIGINT UNSIGNED,
+     seq BIGINT UNSIGNED,
+     iuser BIGINT UNSIGNED,
+     msg VARCHAR(200) NOT NULL,
+     regdt DATETIME DEFAULT NOW(),
+     PRIMARY KEY(idm, seq),
+     FOREIGN KEY(idm) REFERENCES t_dm(idm),
+     FOREIGN KEY(iuser) REFERENCES t_user(iuser)
+)

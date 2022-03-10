@@ -89,11 +89,12 @@ const feedObj = {
             itemContainer.append(topDiv);
             itemContainer.append(imgSwiperDiv);
 
-            //좋아요 영역
+            //좋아요, dm 영역
             const btnsDiv = document.createElement('div');
-            btnsDiv.className = 'favCont p-2';
+            btnsDiv.className = 'favCont p-2 d-flex flex-row';
+
             const heartIcon = document.createElement('i');
-            heartIcon.className = 'fa-heart pointer rem1_2';
+            heartIcon.className = 'fa-heart pointer rem1_2 me-3';
             if(item.isFav === 1) { //좋아요 O
                 heartIcon.classList.add('fas');
             } else { //좋아요 X
@@ -123,7 +124,16 @@ const feedObj = {
                         }
                     });
             });
+
+            const dmDiv = document.createElement('div');
+            dmDiv.className = 'pointer';
+            dmDiv.addEventListener('click', ()=> {
+               location.href=`/dm`;
+            });
+            dmDiv.innerHTML = `<svg aria-label="게시물 공유" class="_8-yf5 " color="#262626" fill="#262626" height="24" role="img" viewBox="0 0 24 24" width="24"><line fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="2" x1="22" x2="9.218" y1="3" y2="10.083"></line><polygon fill="none" points="11.698 20.334 22 3.001 2 3.001 9.218 10.084 11.698 20.334" stroke="currentColor" stroke-linejoin="round" stroke-width="2"></polygon></svg>`;
+
             btnsDiv.append(heartIcon);
+            btnsDiv.append(dmDiv);
             itemContainer.append(btnsDiv);
 
             const favDiv = document.createElement('div');
