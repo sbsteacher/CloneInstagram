@@ -37,9 +37,7 @@ const dmUserListContainerElem = document.querySelector('.dm_user_list_container'
 //사용자 리스트 가져오기
 function getDmUserList() {
     myFetch.get('/dm/list', myJson => {
-        if(myJson.length > 0) {
-            makeDmUserList(myJson);
-        }
+        makeDmUserList(myJson);
     });
 }
 function makeDmUserList(userList) {
