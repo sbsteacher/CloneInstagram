@@ -156,7 +156,7 @@ function makeDmMsgList(msgList) {
     if(isFirst) {
         dmMsgContainerElem.scrollTop = dmMsgContainerElem.scrollHeight;
     } else {
-        dmMsgContainerElem.scrollTop = 3600;
+        dmMsgContainerElem.scrollTop = msgList.length * 72;
     }
 }
 
