@@ -9,5 +9,4 @@ import lombok.ToString;
 @ToString
 public class DmMsgDomain extends DmMsgEntity {
     private String writer;
-    private MessageType type;
 }

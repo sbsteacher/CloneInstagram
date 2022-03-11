@@ -1,6 +1,6 @@
 @charset "utf-8";
 
-html { position: relative; min-height: 100%; margin: 0; }
+html { position: relative; min-height: 100%; margin: 0; scroll-behavior: smooth; }
 body { min-height: 100%; }
 
 .back_color { background-color: #fafafa; }
@@ -40,3 +40,5 @@ body { min-height: 100%; }
 .modal_close_parent { display: flex; justify-content: flex-end; padding: 40px 60px; }
 .modal_close { color: white; font-size: 50px; cursor: pointer; }
 .profile { object-fit: cover; border-radius: 50%; }
+
+.scroll_smooth { scroll-behavior: smooth; }

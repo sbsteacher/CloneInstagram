@@ -12,6 +12,7 @@
 </head>
 
 <th:block layout:fragment="content">
+    <div id="localConst" th:with="oppoiuser=${param.oppoiuser}" th:data-oppoiuser="${oppoiuser}"/>
     <div class="d-flex flex-row w-full h-full justify-content-center">
         <div class="d-flex flex-row p-3 w800">
             <div class="dm_user_list_container w300 over_y_a h600"></div>

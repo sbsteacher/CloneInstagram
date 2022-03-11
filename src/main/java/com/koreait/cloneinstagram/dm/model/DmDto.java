@@ -6,6 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class DmDto {
+    private long idm;
     private int limit;
     private int page;
     private long fromiuser;
