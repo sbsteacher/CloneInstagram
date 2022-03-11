@@ -31,6 +31,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.csrf().disable(); //ajax-post 막힘을 풀어주기 위해
+        
+        http.headers().frameOptions().sameOrigin();
 
         http
             .authorizeRequests()

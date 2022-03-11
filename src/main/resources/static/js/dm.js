@@ -1,13 +1,42 @@
+const sock = new SockJS('/ws-dm');
+const ws = Stomp.over(sock);
+let globalIdm = 0;
+ws.connect({}, function() {
+    console.log('STOMP Connection !!');
+    if(msgParam.idm) {
+        connect(msgParam.idm);
+    }
+});
+
+function connect(idm) {
+    Object.keys(ws.subscriptions).forEach(function(item) {
+        ws.unsubscribe(item);//이전 연결된 구독이 있으면 제거
+    })
+    globalIdm = idm;
+    ws.subscribe(`/sub/room/${idm}`, onMessage);
+}
+
+function sendMsg(msg) {
+    if(ws) {
+        ws.send('/pub/msg', {}, JSON.stringify({ idm:globalIdm, msg: msg}))
+    }
+}
+
+function onMessage(msg) {
+    const item = JSON.parse(msg.body);
+    const div = makeDmMsgItem(item);
+    dmMsgContainerElem.append(div);
+    dmMsgContainerElem.scrollTop = dmMsgContainerElem.scrollHeight;
+}
+
 const globalConstElem = document.querySelector('#globalConst');
 const localConstElem = document.querySelector('#localConst');
 const oppoiuser = localConstElem.dataset.oppoiuser;
-console.log(oppoiuser);
 const dmUserListContainerElem = document.querySelector('.dm_user_list_container');
 
 //사용자 리스트 가져오기
 function getDmUserList() {
     myFetch.get('/dm/list', myJson => {
-        console.log(myJson);
         if(myJson.length > 0) {
             makeDmUserList(myJson);
         }
@@ -22,6 +51,12 @@ function makeDmUserList(userList) {
         if(oppoiuser == item.opponent.iuser) {
             isNonExistent = false;
             getDmMsgList(item.idm);
+            console.log(ws);
+            /*
+            ws.ws.onopen = function(e) {
+                connect(item.idm);
+            }
+            */
         }
     });
 
@@ -67,7 +102,6 @@ const msgInput = document.querySelector('#msg_input');
 const dmMsgSendBtn = document.querySelector('#button-send');
 
 dmMsgContainerElem.addEventListener('scroll', (e) => {
-    console.log(e.target.scrollTop);
     if(e.target.scrollTop === 0) {
         getDmMsgList();
     }
@@ -104,7 +138,6 @@ function getDmMsgList(idm) {
     msgParam.page++;
     msgParam.isNoMore = true;
     myFetch.get('/dm/msg/list', myJson => {
-        console.log(myJson);
         if(myJson.length > 0) {
             if(myJson.length === msgParam.limit) {
                 msgParam.isNoMore = false;
@@ -140,39 +173,5 @@ function makeDmMsgItem(item) {
     `;
     return div;
 }
-
-
-const sock = new SockJS('/ws-dm');
-const ws = Stomp.over(sock);
-let globalIdm = 0;
-ws.connect({}, function() {
-    console.log('STOMP Connection !!');
-});
-
-function connect(idm) {
-    Object.keys(ws.subscriptions).forEach(function(item) {
-        ws.unsubscribe(item);//이전 연결된 구독이 있으면 제거
-    })
-    console.log(`idm : ${idm}`);
-    globalIdm = idm;
-    ws.subscribe(`/sub/room/${idm}`, onMessage);
-}
-
-function sendMsg(msg) {
-    if(ws) {
-        ws.send('/pub/msg', {}, JSON.stringify({ idm:globalIdm, iuser:globalIuser, msg: msg}))
-    }
-}
-
-function onMessage(msg) {
-    console.log('onMessage');
-    const item = JSON.parse(msg.body);
-    console.log(item);
-
-    const div = makeDmMsgItem(item);
-    dmMsgContainerElem.append(div);
-    dmMsgContainerElem.scrollTop = dmMsgContainerElem.scrollHeight;
-}
-
 
 

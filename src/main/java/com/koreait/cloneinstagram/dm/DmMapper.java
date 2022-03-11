@@ -11,6 +11,7 @@ public interface DmMapper {
     int insDm(DmDto dto);
     List<DmDomain> selDmList(DmDto dto);
     UserEntity selDmOpponent(DmDto dto);
+    int updDmLastMsg(DmMsgDomain domain);
 
     int insDmUser(DmUserEntity entity);
 

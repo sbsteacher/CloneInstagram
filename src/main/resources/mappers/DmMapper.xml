@@ -30,6 +30,13 @@
            AND A.iuser != ${fromiuser}
     </select>
 
+    <update id="updDmLastMsg">
+        UPDATE t_dm
+        SET lastmsg = #{msg}
+        , lastdt = current_timestamp()
+        WHERE idm = ${idm}
+    </update>
+
     <!-- //////////////////////////////////////     user    //////// -->
     <insert id="insDmUser">
         INSERT INTO t_dm_user
